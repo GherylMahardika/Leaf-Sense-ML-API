@@ -19,7 +19,7 @@ async function postPredictHandler(req, res, next, model) {
 
     try {
         // Get prediction details
-        const { label, suggestion } = await predictClassification(model, imageFile.buffer); // Pass the buffer to predictClassification
+        const { label, probability, description, prevention, cure } = await predictClassification(model, imageFile.buffer); // Pass the buffer to predictClassification
 
         // Check if label is defined
         if (label === undefined) {
@@ -30,11 +30,14 @@ async function postPredictHandler(req, res, next, model) {
         const id = crypto.randomUUID();
         const createdAt = new Date().toISOString();
 
-        // Prepare the data object with only the specified properties
+        // Prepare the data object with all relevant properties
         const data = {
             id: id,
             result: label,
-            suggestion: suggestion,
+            probability: probability,
+            description: description,
+            prevention: prevention,
+            cure: cure,
             createdAt: createdAt
         };
 
