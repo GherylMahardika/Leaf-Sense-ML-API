@@ -5,7 +5,7 @@ const InputError = require('../exceptions/InputError');
 const multer = require('multer');
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8080;
 const HOST = process.env.HOST || '0.0.0.0'; // Default to 0.0.0.0
 
 // Middleware for parsing multipart/form-data
