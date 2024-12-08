@@ -14,7 +14,7 @@ tf.serialization.registerClass(L2);
 
 async function loadModel() {
     try {
-        const model = await tf.loadLayersModel('file://model_leafsense/model.json');
+        const model = await tf.loadLayersModel('https://storage.googleapis.com/leaf-sense-storage/model/model.json');
         console.log('Model loaded successfully');
         return model;
     } catch (error) {

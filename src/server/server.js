@@ -6,6 +6,7 @@ const multer = require('multer');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
+const HOST = process.env.HOST || '0.0.0.0'; // Default to 0.0.0.0
 
 // Middleware for parsing multipart/form-data
 const upload = multer({ limits: { fileSize: 1000000 } }); // Set max file size to 1MB
@@ -51,7 +52,7 @@ loadModel().then(model => {
 
     // Start the server
     app.listen(PORT, () => {
-        console.log(`Server started at: http://localhost:${PORT}`);
+        console.log(`Server started at: http://${HOST}:${PORT}`);
     });
 }).catch(err => {
     console.error('Failed to load model:', err);

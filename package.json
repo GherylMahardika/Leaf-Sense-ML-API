@@ -4,19 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-dev": "nodemon ./src/server/server.js",
+    "start-dev": "HOST=localhost nodemon ./src/server/server.js",
     "start": "node ./src/server/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google-cloud/firestore": "^7.10.0",
-    "@hapi/hapi": "^21.3.9",
+    "@google-cloud/storage": "^7.14.0",
     "@tensorflow/tfjs-node": "^4.22.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.11.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
