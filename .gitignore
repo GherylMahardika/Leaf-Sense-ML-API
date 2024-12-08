@@ -2,3 +2,4 @@ node_modules
 model_leafsense
 getPredictionData.js
 storeData.js
+model
