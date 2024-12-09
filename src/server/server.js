@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8080;
 const HOST = process.env.HOST || '0.0.0.0'; // Default to 0.0.0.0
 
 // Middleware for parsing multipart/form-data
-const upload = multer({ limits: { fileSize: 1000000 } }); // Set max file size to 1MB
+const upload = multer({ limits: { fileSize: 10000000 } }); // Set max file size to 10MB
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

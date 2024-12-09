@@ -1,6 +1,7 @@
 const predictClassification = require('../services/inference');
 const fs = require('fs');
 const crypto = require('crypto');
+const sharp = require('sharp'); // Import sharp for image processing
 const { uploadFile } = require('../services/storage'); // Import the upload function
 const { connectToDatabase } = require('../services/database'); // Import the database connection function
 
@@ -18,6 +19,28 @@ async function postPredictHandler(req, res, next, model) {
     }
 
     try {
+        // Determine the file type
+        const fileType = imageFile.mimetype; // Get the MIME type of the uploaded file
+        let compressedImageBuffer;
+
+        // Compress the image based on its type
+        if (fileType === 'image/jpeg') {
+            compressedImageBuffer = await sharp(imageFile.buffer)
+                .resize({ width: 800 }) // Resize to a width of 800px
+                .jpeg({ quality: 70 }) // Set quality to 70%
+                .toBuffer();
+        } else if (fileType === 'image/png') {
+            compressedImageBuffer = await sharp(imageFile.buffer)
+                .resize({ width: 800 }) // Resize to a width of 800px
+                .png({ compressionLevel: 5 }) // Set compression level (0-9)
+                .toBuffer();
+        } else {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Unsupported image format. Please upload a JPEG or PNG image.',
+            });
+        }
+
         // Get prediction details
         const { label, probability, description, prevention, cure } = await predictClassification(model, imageFile.buffer); // Pass the buffer to predictClassification
 
