@@ -54,7 +54,7 @@ async function postPredictHandler(req, res, next, model) {
 
         // Check the probability and prepare the response accordingly
         let response;
-        if (probability >= 0.99) {
+        if (probability >= 0.80) {
             // Define the destination path in Cloud Storage
             const imageUrl = `${id}-${imageFile.originalname}`; // Define the path in Cloud Storage
 
