@@ -13,7 +13,7 @@ This API provides a service for detecting diseases in tea plants using image cla
 
 ### Prerequisites
 
-- Node.js (version 14 or higher)
+- Node.js (version 18 is recommended)
 - npm (Node Package Manager)
 - A machine learning model for tea plant disease classification
 - A cloud storage service (e.g., Google Cloud Storage) for image uploads
@@ -24,7 +24,7 @@ This API provides a service for detecting diseases in tea plants using image cla
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/tea-plant-disease-detection-api.git
+   git clone https://github.com/GherylMahardika/Leaf-Sense-ML-API.git
    cd tea-plant-disease-detection-api
    ```
 
@@ -41,7 +41,7 @@ This API provides a service for detecting diseases in tea plants using image cla
 4. Start the server:
 
    ```bash
-   npm start
+   npm run start
    ```
 
 ## API Endpoints
@@ -114,14 +114,6 @@ The API provides error responses with appropriate status codes and messages. Com
 
 - **400 Bad Request**: When the uploaded file is missing or in an unsupported format.
 - **500 Internal Server Error**: For unexpected errors during processing.
-
-## Contributing
-
-Contributions are welcome! If you have suggestions for improvements or new features, please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 
