@@ -1,4 +1,4 @@
-# Tea Plant Disease Detection API
+# Tea Plant Disease Detection API - Bangkit Capstone Project
 
 This API provides a service for detecting diseases in tea plants using image classification. It utilizes a machine learning model to analyze images of tea leaves and return predictions regarding their health status.
 
