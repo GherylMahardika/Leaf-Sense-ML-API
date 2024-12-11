@@ -52,38 +52,54 @@ async function postPredictHandler(req, res, next, model) {
         // Generate a unique ID
         const id = crypto.randomUUID();
 
-        // Define the destination path in Cloud Storage
-        const imageUrl = `${id}-${imageFile.originalname}`; // Define the path in Cloud Storage
+        // Check the probability and prepare the response accordingly
+        let response;
+        if (probability >= 0.99) {
+            // Define the destination path in Cloud Storage
+            const imageUrl = `${id}-${imageFile.originalname}`; // Define the path in Cloud Storage
 
-        // Upload the image to Cloud Storage using the buffer
-        await uploadFile(imageFile.buffer, imageUrl); // Pass the buffer instead of path
+            // Upload the image to Cloud Storage using the buffer
+            await uploadFile(imageFile.buffer, imageUrl); // Pass the buffer instead of path
 
-        // Save the result in the database (only id, result, and image_url)
-        const connection = await connectToDatabase();
-        await connection.execute('INSERT INTO predictions (id, result, image_url, probability) VALUES (?, ?, ?, ?)', [
-            id,
-            label,
-            `https://storage.googleapis.com/leaf-sense-storage/prediction-image/${imageUrl}`, // Construct the public URL
-            probability // Include probability in the SQL insert
-        ]);
+            // Save the result in the database (only id, result, and image_url)
+            const connection = await connectToDatabase();
+            await connection.execute('INSERT INTO predictions (id, result, image_url, probability) VALUES (?, ?, ?, ?)', [
+                id,
+                label,
+                `https://storage.googleapis.com/leaf-sense-storage/prediction-image/${imageUrl}`, // Construct the public URL
+                probability // Include probability in the SQL insert
+            ]);
 
-        // Prepare the response message
-        const responseMessage = 'Model predicted successfully';
-
-        const response = {
-            status: 'success',
-            message: responseMessage,
-            data: {
-                id: id,
-                result: label,
-                probability: probability, // Include probability in the response
-                description: description, // Include description in the response
-                prevention: prevention, // Include prevention in the response
-                cure: cure // Include cure in the response
-            }
-        };
-
-        return res.status(201).json(response);
+            // Prepare the success response
+            response = {
+                status: 'success',
+                message: 'Model predicted successfully',
+                data: {
+                    id: id,
+                    result: label,
+                    probability: probability, // Include probability in the response
+                    description: description, // Include description in the response
+                    prevention: prevention, // Include prevention in the response
+                    cure: cure // Include cure in the response
+                }
+            };
+            return res.status(201).json(response);
+        } else {
+            // Default response if the probability is less than 0.99
+            response = {
+                status: 'success',
+                message: 'Model predicted successfully',
+                data: {
+                    id: id,
+                    result: 'Tidak terdeteksi', // Indicate no significant disease detected
+                    probability: probability, // Include the actual probability
+                    description: "Mohon foto tanaman teh kembali.", // Request for another photo
+                    prevention: "Silakan coba lagi dengan foto yang lebih jelas.", // Default prevention message
+                    cure: "Tidak ada pengobatan yang diperlukan saat ini." // Default cure message
+                }
+            };
+            return res.status(200).json(response);
+        }
     } catch (error) {
         // Handle any errors during prediction
         return res.status(400).json({
